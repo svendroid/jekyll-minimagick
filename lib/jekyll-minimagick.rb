@@ -19,6 +19,7 @@ module Jekyll
         @name = name
         @dst_dir = preset.delete('destination')
         @src_dir = preset.delete('source')
+        @recursive = preset.delete('recursive')
         @commands = preset
       end
 
@@ -66,9 +67,20 @@ module Jekyll
         return unless site.config['mini_magick']
 
         site.config['mini_magick'].each_pair do |name, preset|
+          
           Dir.chdir preset['source'] do
-            Dir.glob(File.join("**", "*.{png,jpg,jpeg,gif,PNG,JPG,JPEG,GIF}")) do |source|
-              puts source
+            if preset['recursive'] == false 
+              #false
+              root = '.'
+            else
+              #true or nil
+              root = '**'
+            end
+
+            puts 'Add images for later processing:'
+            puts Dir.pwd
+            Dir.glob(File.join(root, "*.{png,jpg,jpeg,gif,PNG,JPG,JPEG,GIF}")) do |source|
+              puts '  ' + source
               site.static_files << GeneratedImageFile.new(site, site.source, preset['destination'], source, preset.clone)
             end
           end

@@ -23,10 +23,12 @@ Define presets in your _config.yml file, like this:
 			source: img/photos/original
 			destination: img/photos/thumbnail
 			resize: "100x100"
+			recursive: true #true is default
 		medium:
 			source: img/photos/original
 			destination: img/photos/medium
 			resize: "600x400"
+			recursive: false #true is default
 
 This configuration will create a 100x100 thumbnail for each image in 
 _img/photos/original_ and put it in _\_site/img/photos/thumbnail_ and a 600x400
