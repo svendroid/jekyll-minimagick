@@ -20,6 +20,7 @@ module Jekyll
         @dst_dir = preset.delete('destination')
         @src_dir = preset.delete('source')
         @recursive = preset.delete('recursive')
+        @nameextension = preset.delete('nameextension')
         @commands = preset
       end
 
@@ -31,6 +32,17 @@ module Jekyll
         File.join(@base, @dir.sub(@dst_dir, @src_dir), @name)
       end
 
+      # add text before fileextension
+      def destination(dest)
+        File.join(dest, @dir, insert_before_last_dot(@name, @nameextension))
+      end
+
+      def insert_before_last_dot(str, part)
+        idx = str.rindex('.')
+        return str if (idx.nil? || idx==0)
+        str.clone.tap { |x| x[idx] = part.to_s + '.' }
+      end
+
       # Use MiniMagick to create a derivative image at the destination
       # specified (if the original is modified).
       #   +dest+ is the String path to the destination dir
@@ -38,7 +50,7 @@ module Jekyll
       # Returns false if the file was not modified since last time (no-op).
       def write(dest)
         dest_path = destination(dest)
-
+        puts 'Create ... ' + dest_path
         return false if File.exist? dest_path and !modified?
 
         @@mtimes[path] = mtime

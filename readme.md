@@ -1,8 +1,13 @@
 MiniMagick integration for Jekyll
 =================================
-
 This gem allows you to easily use MiniMagick to crop and resize images in your
 Jekyll project, according to a preset defined in your config file.
+
+Additions to master project
+---------------------------
+* load images recursivly from specified directory
+* allow to specified a imagenameextension which is added between filename and file-extension e.g. example.png -> example_thumb.png
+* specify several processing commands
 
 Basic Setup
 -----------
@@ -24,6 +29,7 @@ Define presets in your _config.yml file, like this:
 			destination: img/photos/thumbnail
 			resize: "100x100"
 			recursive: true #true is default
+			nameextension: "_thumb" #string is added between name and file-extension e.g. example.png -> example_thumb.png
 		medium:
 			source: img/photos/original
 			destination: img/photos/medium
